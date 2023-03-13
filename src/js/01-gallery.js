@@ -1,5 +1,36 @@
-// Add imports above this line
-import { galleryItems } from './gallery-items';
-// Change code below this line
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
-console.log(galleryItems);
+import { galleryItems } from './gallery-items';
+
+
+const galleryContainer = document.querySelector('.gallery');
+const cardsMarkup = createGalleryCards(galleryItems);
+
+galleryContainer.insertAdjacentHTML('beforeend', cardsMarkup);
+
+
+
+
+function createGalleryCards(galleryItems) {
+	return galleryItems.map(({ preview, original, description }) => {
+	return `
+			<a class="gallery__item" href="${original}">
+				<img
+					class="gallery__image"
+					src="${preview}"
+					data-source="${original}"
+					alt="${description}"
+				/>
+			</a>
+			`;
+	})
+	.join('');
+};
+
+
+const gallery = new SimpleLightbox('.gallery a', {
+	captionsData: 'alt',
+	captionPosition: 'bottom',
+	captionDelay: 250,
+});
